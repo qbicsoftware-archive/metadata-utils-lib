@@ -1,6 +1,8 @@
-package life.qbic;
+package life.qbic.Experiment;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents an Experiment of OpenBIS of the Type Q_Sample_Preparation
@@ -9,13 +11,16 @@ public class SamplePreparation {
 
     private String sessionToken;
     private IApplicationServerApi applicationServer;
-    private String projectCode;
+    private String experimentCode;
 
-    public SamplePreparation(String sessionToken, IApplicationServerApi applicationServer, String projectCode){
+    private final static Logger LOG = LogManager.getLogger(SamplePreparation.class);
+
+
+    public SamplePreparation(String sessionToken, IApplicationServerApi applicationServer, String experimentCode){
 
         this.sessionToken = sessionToken;
         this.applicationServer = applicationServer;
-        this.projectCode = projectCode;
+        this.experimentCode = experimentCode;
 
     }
 
