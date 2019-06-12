@@ -163,12 +163,31 @@ public class TestSample {
         try {
             org.jdom.Document doc = saxBuilder.build(new StringReader(xmlCode));
 
-            String message =  doc.getRootElement().getChild("qfactors").getChild("qcategorical").getAttribute("label").getValue();
-            System.out.println(message);
+            //a Sample property can contains qfactors
+            Element qfactors = doc.getRootElement().getChild("qfactors");
 
-            doc.getRootElement().getChild("qfactors").getChild("qcategorical").getAttribute("value").getValue();
+            // TODO: 6/12/19 handle multiple children of qfactors!!!!!
+            //with multiple qcategorical children
+            Element qcategorical = qfactors.getChild("qcategorical");
 
-            //a Sample property can contain
+            if(qcategorical != null){
+                String label = qcategorical.getAttribute("label").getValue();
+                String value = qcategorical.getAttribute("value").getValue();
+
+                props.put(label,value);
+            }
+
+            //and or with multiple qcontinous children
+            Element qcontinous = qfactors.getChild("qcontinous");
+
+            if (qcontinous != null){
+                String label = qcontinous.getAttribute("label").getValue();
+                String value = qcontinous.getAttribute("value").getValue();
+                String unit = qcontinous.getAttribute("unit").getValue();
+
+                props.put(label,value+" "+unit);
+
+            }
 
 
         } catch (JDOMException e) {
