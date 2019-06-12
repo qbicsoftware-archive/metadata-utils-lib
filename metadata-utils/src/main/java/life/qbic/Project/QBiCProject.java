@@ -44,7 +44,7 @@ public class QBiCProject {
      * Lookup all SamplePreparation Codes for a project (Experiment Type Q_SAMPLE_PREPARATION Codes)
      * @return
      */
-    public ArrayList<String> getSamplePreparationCodes(){
+    public ArrayList<String> fetchSamplePreparationCodes(){
 
         ProjectSearchCriteria criteria = new ProjectSearchCriteria();
         criteria.withCode().thatEquals(projectCode);
@@ -60,6 +60,7 @@ public class QBiCProject {
 
 
         SearchResult<Project> result = applicationServer.searchProjects(sessionToken, criteria, fetchOptions);
+        LOG.info("Fetched information for the project");
 
         // get all sample codes of the project
         ArrayList<String> sampleCodes = new ArrayList<String>();
