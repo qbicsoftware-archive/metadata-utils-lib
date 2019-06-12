@@ -25,3 +25,6 @@ logs/
 
 # compiled Vaadin widgetsets
 src/main/webapp/VAADIN/widgetsets
+
+# Propertie Files
+src/test/resources/Credentials.properties
