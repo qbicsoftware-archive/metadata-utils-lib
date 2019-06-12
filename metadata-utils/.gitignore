@@ -27,4 +27,4 @@ logs/
 src/main/webapp/VAADIN/widgetsets
 
 # Propertie Files
-src/test/resources/Credentials.properties
+*.properties
