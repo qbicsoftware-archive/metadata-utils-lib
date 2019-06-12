@@ -48,6 +48,7 @@ public class TestQBiCProject {
         for(String sample : samples){
             TestCase.assertTrue(sample.startsWith(projectCode));
         }
+        String test ="this is a test";
     }
 
 
