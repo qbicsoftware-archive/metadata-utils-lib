@@ -33,7 +33,10 @@ public class QBiCProject {
     private String sessionToken;
     private IApplicationServerApi applicationServer;
     private String projectCode;
+    //contains the group assignment and the corresponding list of sample codes of this group
     private HashMap<Integer,ArrayList<String>> groups = new HashMap<>();
+    //contains a list of all possible properties occurring in this project
+    private ArrayList<String> properties = new ArrayList<>();
 
     private final static Logger LOG = LogManager.getLogger(QBiCProject.class);
 
@@ -94,6 +97,7 @@ public class QBiCProject {
 
         for(String sample : samples){
             TestSample testSample = new TestSample(sessionToken,applicationServer,sample);
+            testSample.fetchTestSample();
 
             if(!groups.containsKey(testSample.getEntity())){
                 ArrayList<String> codes = new ArrayList<>();
@@ -130,6 +134,47 @@ public class QBiCProject {
     }
 
     /**
+     * Fill the list properties with the properties of the sample
+     * @param samples
+     */
+    private void parseSampleProperties(ArrayList<String> samples) {
+
+        //can i assume that all samples have the same properties??
+        TestSample testSample = new TestSample(sessionToken, applicationServer, samples.get(0));
+        testSample.fetchTestSample();
+
+        properties.addAll(testSample.getSampleProperties().keySet());
+
+    }
+
+    /**
+     * create as many columns as properties exits
+     * @return
+     */
+    private String createConditionsCol(){
+        String conditions = "";
+        for(String elem : properties){
+            conditions = conditions+"\t"+"Condition: "+elem;
+        }
+        return conditions;
+    }
+
+    /**
+     * Method to retrieve the values of the corresponding properties
+     * @param sample
+     * @return
+     */
+    private String getAllPropertiesAsString(TestSample sample){
+        StringBuilder propertyString = new StringBuilder();
+
+        for(String prop : properties){
+            propertyString.append("\t"+sample.getSampleProperties().get(prop));
+        }
+
+        return propertyString.toString();
+    }
+
+    /**
      * Method to create the meta data sheet by calling
      * @throws IOException
      */
@@ -138,6 +183,9 @@ public class QBiCProject {
         FileWriter csvWriter = new FileWriter(System.getProperty("user.dir") + File.separator +"metadataSheet.csv");
         LOG.info("Metadata sheet gets created");
         //System.console().printf("Metadata sheet gets created please wait");
+        ArrayList<String> samples = fetchSamplePreparationCodes();
+        calculateGrouping(samples);
+        parseSampleProperties(samples);
 
         //print header
         csvWriter.append("QBiC_Barcode");
@@ -157,13 +205,9 @@ public class QBiCProject {
         csvWriter.append("RIN/DIN");
         csvWriter.append("\t");
         csvWriter.append("Filename");
-        csvWriter.append("\t");
-        // TODO: 6/14/19 how to handle multiple conditions?
         csvWriter.append(createConditionsCol());
         csvWriter.append("\n");
 
-        ArrayList<String> samples = fetchSamplePreparationCodes();
-        calculateGrouping(samples);
 
         for(String code : samples){
             TestSample sample = new TestSample(sessionToken,applicationServer,code);
@@ -179,7 +223,7 @@ public class QBiCProject {
             csvWriter.append(sample.getAnalyte()+"\t");
             csvWriter.append(sample.getRIN()+"\t");
             csvWriter.append(sample.getFileName()+"\t");
-            // TODO: 6/14/19 add conditions
+            csvWriter.append(getAllPropertiesAsString(sample));
             csvWriter.append("\n");
 
         }
@@ -189,9 +233,6 @@ public class QBiCProject {
 
     }
 
-    // TODO: 6/14/19 add functionallity
-    private String createConditionsCol(){
-        return "test"+"\t"+"test2";
-    }
+
 
 }

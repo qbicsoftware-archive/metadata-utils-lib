@@ -15,6 +15,7 @@ import org.jdom.input.SAXBuilder;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,7 +58,6 @@ public class TestSample {
             properties = sample.getProperties();
             for(Sample child : sample.getChildren()){
                 if(child.getType().getCode().equals("Q_NGS_SINGLE_SAMPLE_RUN")){
-                    // TODO: 6/14/19 is this how multiple datasets for one entry are handled? 
                     //in case of multiple datasets
                     if(properties.containsKey("Q_SECONDARY_NAME_SAMPLE_RUN")){
                         String propToExtend = properties.get("Q_SECONDARY_NAME_SAMPLE_RUN");
@@ -80,10 +80,7 @@ public class TestSample {
     public HashMap<String,String> getSampleProperties(){
         //Properties are encoded by XML and first need to be parsed
         //also one sample can store multiple properties
-        if(properties.containsKey("Q_PROPERTIES")){
-
-             return parseProperties(properties.get("Q_PROPERTIES"));
-        }
+        if(properties.containsKey("Q_PROPERTIES")) return parseProperties(properties.get("Q_PROPERTIES"));
 
         LOG.warn("No Sample name is available for the given sample code "+sampleCode);
         return null;
@@ -198,7 +195,7 @@ public class TestSample {
      * @param xmlCode
      * @return
      */
-    private HashMap<String,String> parseProperties(String xmlCode){
+    public static HashMap<String,String> parseProperties(String xmlCode){
 
         HashMap<String,String> props = new HashMap<String, String>();
         //System.out.println(xmlCode);
@@ -210,34 +207,38 @@ public class TestSample {
             //a Sample property can contains qfactors
             Element qfactors = doc.getRootElement().getChild("qfactors");
 
-            // TODO: 6/12/19 handle multiple children of qfactors!!!!!
             //with multiple qcategorical children
-            Element qcategorical = qfactors.getChild("qcategorical");
+            List<Element> qcategoricals = qfactors.getChildren("qcategorical");
 
-            if(qcategorical != null){
-                String label = qcategorical.getAttribute("label").getValue();
-                String value = qcategorical.getAttribute("value").getValue();
+            if(qcategoricals != null){
+                for(Element qcategorical : qcategoricals){
+                    String label = qcategorical.getAttribute("label").getValue();
+                    String value = qcategorical.getAttribute("value").getValue();
 
-                props.put(label,value);
+                    props.put(label,value);
+                }
             }
 
             //and or with multiple qcontinous children
-            Element qcontinous = qfactors.getChild("qcontinous");
+            List<Element> qcontinous_list = qfactors.getChildren("qcontinous");
 
-            if (qcontinous != null){
-                String label = qcontinous.getAttribute("label").getValue();
-                String value = qcontinous.getAttribute("value").getValue();
-                String unit = qcontinous.getAttribute("unit").getValue();
+            if (qcontinous_list!= null){
+                for(Element qcontinous : qcontinous_list){
+                    String label = qcontinous.getAttribute("label").getValue();
+                    String value = qcontinous.getAttribute("value").getValue();
+                    String unit = qcontinous.getAttribute("unit").getValue();
 
-                props.put(label,value+" "+unit);
+                    props.put(label,value+" "+unit);
+                }
 
             }
 
-
         } catch (JDOMException e) {
             // handle JDOMException
+            LOG.error("JDOMException: unable to read property XML for sample");
         } catch (IOException e) {
             // handle IOException
+            LOG.error("IOException: unable to read property XML for sample");
         }
 
         return props;

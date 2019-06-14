@@ -50,6 +50,14 @@ public class TestTestSample {
 
     @Test
     public void testMultipleConditions(){
+        TestSample.parseProperties("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+                "<qproperties xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "xsi:schemaLocation=\"https://github.com/qbicsoftware/xml-manager-lib/blob/development/src/main/resources/life/qbic/xml/manager/sample_properties.xsd\">\n" +
+                "\t<qfactors>\n" +
+                "\t\t<qcategorical label=\"technical_replicate\" value=\"DDA_Rep1\"/>\n" +
+                "\t\t<qcategorical label=\"workflow_type\" value=\"DDA\"/>\n" +
+                "\t</qfactors>\n" +
+                "</qproperties>");
 
     }
 
