@@ -21,6 +21,7 @@ public class BiologicalEntity {
     private IApplicationServerApi applicationServer;
     private String sampleCode; //represents a Sample of type Q_TEST_SAMPLE
     private Map<String,String> properties;
+    private String biologicalEntityCode;
 
     private final static Logger LOG = LogManager.getLogger(BiologicalEntity.class);
 
@@ -47,14 +48,16 @@ public class BiologicalEntity {
 
         SearchResult<Sample> result = applicationServer.searchSamples(sessionToken, criteria, fetchOptions);
 
+
         //check the parents to retrieve Biological_Entity
         for(Sample sample : result.getObjects()){
             //biological sample level
             for(Sample biologSample : sample.getParents()){
                 //entity level
                 for(Sample entity : biologSample.getParents()) {
-                    //a sample can only be connected to one Entity! /can only have one parent
                     if (entity.getType().getCode().equals("Q_BIOLOGICAL_ENTITY")) {
+                        biologicalEntityCode = entity.getCode();
+                        //a sample can only be connected to one Entity! /can only have one parent
                         properties = entity.getProperties();
                     }
                 }
@@ -93,6 +96,10 @@ public class BiologicalEntity {
         LOG.warn("No source organism is available for the given sample code");
 
         return null;
+    }
+
+    public String getBiologicalEntityCode(){
+        return biologicalEntityCode;
     }
 
 }

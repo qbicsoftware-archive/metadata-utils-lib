@@ -49,6 +49,7 @@ public class BiologicalSample {
         for(Sample sample : result.getObjects()){
             for(Sample parent : sample.getParents()){
                 if(parent.getType().getCode().equals("Q_BIOLOGICAL_SAMPLE")){
+                    //a sample cannot have multiple parents
                     properties = parent.getProperties();
                 }
             }
@@ -63,7 +64,7 @@ public class BiologicalSample {
         //Primary tissue/body fluid
         if(properties.containsKey("Q_PRIMARY_TISSUE"))  return properties.get("Q_PRIMARY_TISSUE");
 
-        LOG.warn("No tissue is available for the given sample code");
+        LOG.warn("No tissue is available for the given sample code "+sampleCode);
 
         return null;
     }

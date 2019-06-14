@@ -47,12 +47,27 @@ public class TestSample {
         // tell the API to fetch all descendants for each returned sample
         SampleFetchOptions fetchOptions = new SampleFetchOptions();
         fetchOptions.withProperties();
+        fetchOptions.withType();
+        fetchOptions.withChildrenUsing(fetchOptions);
 
         SearchResult<Sample> result = applicationServer.searchSamples(sessionToken, criteria, fetchOptions);
 
-
         for(Sample sample : result.getObjects()){
+            //for a given sample code only one result should be reported
             properties = sample.getProperties();
+            for(Sample child : sample.getChildren()){
+                if(child.getType().getCode().equals("Q_NGS_SINGLE_SAMPLE_RUN")){
+                    // TODO: 6/14/19 is this how multiple datasets for one entry are handled? 
+                    //in case of multiple datasets
+                    if(properties.containsKey("Q_SECONDARY_NAME_SAMPLE_RUN")){
+                        String propToExtend = properties.get("Q_SECONDARY_NAME_SAMPLE_RUN");
+                        properties.put("Q_SECONDARY_NAME_SAMPLE_RUN",propToExtend+","+child.getProperty("Q_SECONDARY_NAME"));
+                    }
+                    else{
+                        properties.put("Q_SECONDARY_NAME_SAMPLE_RUN",child.getProperty("Q_SECONDARY_NAME"));
+                    }
+                }
+            }
         }
 
 
@@ -70,7 +85,7 @@ public class TestSample {
              return parseProperties(properties.get("Q_PROPERTIES"));
         }
 
-        LOG.warn("No Sample name is available for the given sample code");
+        LOG.warn("No Sample name is available for the given sample code "+sampleCode);
         return null;
     }
 
@@ -82,19 +97,19 @@ public class TestSample {
         //Secondary Name is saved as External DB identifier
         if(properties.containsKey("Q_EXTERNALDB_ID")) return properties.get("Q_EXTERNALDB_ID");
 
-        LOG.warn("No Secondary name is available for the given sample code");
+        LOG.warn("No Secondary name is available for the given sample code "+sampleCode);
         return null;
     }
 
     /**
-     * An analyte is descirbed by e.g. RNA (no QBiC specific code type for a Sample)
+     * An analyte is described by e.g. RNA (no QBiC specific code type for a Sample)
      * @return
      */
     public String getAnalyte(){
         //Analyte is saved as Sample type
         if(properties.containsKey("Q_SAMPLE_TYPE")) return properties.get("Q_SAMPLE_TYPE");
 
-        LOG.warn("No Analyte is available for the given sample code");
+        LOG.warn("No Analyte is available for the given sample code "+sampleCode);
         return null;
     }
 
@@ -116,17 +131,16 @@ public class TestSample {
      *
      * @return
      */
+    // TODO: 6/14/19 how to handle DIN --> until now no code for DINs
     public String getRIN(){
         //RIN is saved as RNA Integrity Number
         if(properties.containsKey("Q_RNA_INTEGRITY_NUMBER")) return properties.get("Q_RNA_INTEGRITY_NUMBER");
 
-        LOG.warn("No RIN is available for the given sample code");
+        LOG.warn("No RIN is available for the given sample code "+sampleCode);
         return null;
 
     }
 
-    // TODO: 6/12/19 these are the methods depending on deeper or higher structures (hierarchically spoken) thus create the corresponding objects
-    //  in the respective functions and implement the major functionality (actually fetching the e.g tissue type through the objects function?
 
     /**
      * This property is stored in a sample of type Biological Sample
@@ -156,17 +170,22 @@ public class TestSample {
      * @return
      */
     public String getFileName(){
+        //
+        if(properties.containsKey("Q_SECONDARY_NAME_SAMPLE_RUN")) return properties.get("Q_SECONDARY_NAME_SAMPLE_RUN");
 
-        return "";
+        LOG.warn("No files are available for the given sample code "+sampleCode);
+        return null;
     }
 
     /**
      * This method returns the grouping of the samples
      * @return
      */
-    public String getGrouping(){
+    public String getEntity(){
 
-        return null;
+        BiologicalEntity biologEntity = new BiologicalEntity(sessionToken, applicationServer, sampleCode);
+
+        return biologEntity.getBiologicalEntityCode();
     }
 
 

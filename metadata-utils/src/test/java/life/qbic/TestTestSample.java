@@ -2,6 +2,8 @@ package life.qbic;
 
 import junit.framework.TestCase;
 import life.qbic.Project.QBiCProject;
+import life.qbic.Samples.BiologicalEntity;
+import life.qbic.Samples.BiologicalSample;
 import life.qbic.Samples.TestSample;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +14,11 @@ public class TestTestSample {
 
     private TestSample testSample;
     private String sampleCode;
+    private OpenBisLogIn login;
 
     @Before
     public void setUP() throws IOException {
-        OpenBisLogIn login = new OpenBisLogIn();
+        login = new OpenBisLogIn();
 
         //create a session with OpenBIS
         login.readCredentials();
@@ -28,20 +31,26 @@ public class TestTestSample {
 
     @Test
     public void fetchTestSampleInformation(){
-
         testSample.fetchTestSample();
         TestCase.assertEquals(testSample.getAnalyte(),"RNA");
-        //System.out.println(testSample.getSampleProperties());
     }
 
+    // TODO: 6/14/19 what should be tested for biological entity and biological sample ?
     @Test
     public void biologicalSampleTest(){
-        testSample.getTissue();
+        BiologicalSample biologSample = new BiologicalSample(login.sessionToken, login.applicationServer, sampleCode);
+        TestCase.assertTrue(biologSample.getTissue() != null);
     }
 
     @Test
     public void biologicalEntityTest(){
-        System.out.println(testSample.getSource());
+        BiologicalEntity biologEntity = new BiologicalEntity(login.sessionToken, login.applicationServer, sampleCode);
+        TestCase.assertTrue(biologEntity.getSource() != null);
+    }
+
+    @Test
+    public void testMultipleConditions(){
+
     }
 
 }

@@ -14,11 +14,16 @@ import ch.ethz.sis.openbis.generic.asapi.v3.dto.project.search.ProjectSearchCrit
 
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.Sample;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.fetchoptions.SampleFetchOptions;
+import life.qbic.Samples.TestSample;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.aspectj.weaver.ast.Test;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This Class represents the QBiCProject for which the meta data should be collected
@@ -28,6 +33,7 @@ public class QBiCProject {
     private String sessionToken;
     private IApplicationServerApi applicationServer;
     private String projectCode;
+    private HashMap<Integer,ArrayList<String>> groups = new HashMap<>();
 
     private final static Logger LOG = LogManager.getLogger(QBiCProject.class);
 
@@ -77,6 +83,115 @@ public class QBiCProject {
         }
 
         return sampleCodes;
+    }
+
+    /**
+     * Method to calculate the grouping of the samples corresponding to their parent entity
+     */
+    private void calculateGrouping(ArrayList<String> samples){
+
+        int groupCounter = 1;
+
+        for(String sample : samples){
+            TestSample testSample = new TestSample(sessionToken,applicationServer,sample);
+
+            if(!groups.containsKey(testSample.getEntity())){
+                ArrayList<String> codes = new ArrayList<>();
+                codes.add(testSample.getTestSampleCode());
+
+                groups.put(groupCounter,codes);
+
+                groupCounter++;
+            }
+            else{
+                groups.get(groupCounter).add(testSample.getTestSampleCode());
+            }
+
+        }
+    }
+
+    /**
+     * look up the group in the "groups" map to retrieve the assigned group of a sample
+     * @param sampleCode
+     * @return
+     */
+    private int getGroup(String sampleCode){
+        // TODO: 6/14/19 nice feature would be to add what type of group it is e.g human sample: patient1, plant sample: plant1, ...
+        for(Map.Entry<Integer, ArrayList<String>> entry : groups.entrySet()){
+            for(String code : entry.getValue()){
+                if(code.equals(sampleCode)){
+                    return entry.getKey();
+                }
+            }
+        }
+
+        LOG.warn("No grouping can be created");
+        return 0;
+    }
+
+    /**
+     * Method to create the meta data sheet by calling
+     * @throws IOException
+     */
+    public void createMetaDataSheet() throws IOException {
+
+        FileWriter csvWriter = new FileWriter(System.getProperty("user.dir") + File.separator +"metadataSheet.csv");
+        LOG.info("Metadata sheet gets created");
+        //System.console().printf("Metadata sheet gets created please wait");
+
+        //print header
+        csvWriter.append("QBiC_Barcode");
+        csvWriter.append("\t");
+        csvWriter.append("Secondary_Name");
+        csvWriter.append("\t");
+        csvWriter.append("Sample_Name");
+        csvWriter.append("\t");
+        csvWriter.append("Sample_Grouping");
+        csvWriter.append("\t");
+        csvWriter.append("Sample_Source");
+        csvWriter.append("\t");
+        csvWriter.append("Sample_Tissue");
+        csvWriter.append("\t");
+        csvWriter.append("Analyte");
+        csvWriter.append("\t");
+        csvWriter.append("RIN/DIN");
+        csvWriter.append("\t");
+        csvWriter.append("Filename");
+        csvWriter.append("\t");
+        // TODO: 6/14/19 how to handle multiple conditions?
+        csvWriter.append(createConditionsCol());
+        csvWriter.append("\n");
+
+        ArrayList<String> samples = fetchSamplePreparationCodes();
+        calculateGrouping(samples);
+
+        for(String code : samples){
+            TestSample sample = new TestSample(sessionToken,applicationServer,code);
+            sample.fetchTestSample();
+
+            //each code is an entry in the final table
+            csvWriter.append(code+"\t");
+            csvWriter.append(sample.getSecondaryName()+"\t");
+            csvWriter.append(sample.getSampleName()+"\t");
+            csvWriter.append(getGroup(code)+"\t");
+            csvWriter.append(sample.getSource()+"\t");
+            csvWriter.append(sample.getTissue()+"\t");
+            csvWriter.append(sample.getAnalyte()+"\t");
+            csvWriter.append(sample.getRIN()+"\t");
+            csvWriter.append(sample.getFileName()+"\t");
+            // TODO: 6/14/19 add conditions
+            csvWriter.append("\n");
+
+        }
+
+        csvWriter.flush();
+        csvWriter.close();
+
+    }
+
+    // TODO: 6/14/19 add functionallity
+    private String createConditionsCol(){
+        return "test"+"\t"+"test2";
     }
 
 }

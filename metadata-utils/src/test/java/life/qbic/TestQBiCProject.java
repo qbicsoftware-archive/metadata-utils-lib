@@ -45,6 +45,15 @@ public class TestQBiCProject {
         }
     }
 
+    @Test
+    public void downloadTest() throws IOException{
+        project.createMetaDataSheet();
 
+        File file =  new File(System.getProperty("user.dir")+File.separator+"metadataSheet.csv");
+        Boolean fileExists = file.exists();
+
+        TestCase.assertTrue(fileExists);
+
+    }
 
 }
