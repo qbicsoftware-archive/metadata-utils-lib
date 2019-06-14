@@ -46,7 +46,6 @@ public class TestSample {
 
         // tell the API to fetch all descendants for each returned sample
         SampleFetchOptions fetchOptions = new SampleFetchOptions();
-        fetchOptions.withChildrenUsing(fetchOptions);
         fetchOptions.withProperties();
 
         SearchResult<Sample> result = applicationServer.searchSamples(sessionToken, criteria, fetchOptions);
@@ -127,37 +126,63 @@ public class TestSample {
     }
 
     // TODO: 6/12/19 these are the methods depending on deeper or higher structures (hierarchically spoken) thus create the corresponding objects
-    //  in the respective functions and implement the major functionallity (actually fetching the e.g tissue type through the objects function?
+    //  in the respective functions and implement the major functionality (actually fetching the e.g tissue type through the objects function?
 
     /**
-     *
+     * This property is stored in a sample of type Biological Sample
      * @return
      */
     public String getTissue(){
         //Primary tissue/body fluid
-        return "";
+        BiologicalSample biologSample = new BiologicalSample(sessionToken, applicationServer, sampleCode);
+
+        return biologSample.getTissue();
     }
 
 
     /**
-     *
+     * The information about the source of the sample is saved in an Biological Entity
      * @return
      */
     public String getSource(){
         //NCBI organism
+        BiologicalEntity biologEntity = new BiologicalEntity(sessionToken, applicationServer, sampleCode);
 
-        return "";
+        return biologEntity.getSource();
     }
 
+    /**
+     * Q_NGS_SINGLE_RUN_SAMPLE
+     * @return
+     */
     public String getFileName(){
 
         return "";
     }
 
+    /**
+     * This method returns the grouping of the samples
+     * @return
+     */
+    public String getGrouping(){
+
+        return null;
+    }
+
+
+    public String getTestSampleCode() {
+        return sampleCode;
+    }
+
+    /**
+     * Parser for the properties that are encoded in XML
+     * @param xmlCode
+     * @return
+     */
     private HashMap<String,String> parseProperties(String xmlCode){
 
         HashMap<String,String> props = new HashMap<String, String>();
-        System.out.println(xmlCode);
+        //System.out.println(xmlCode);
 
         org.jdom.input.SAXBuilder saxBuilder = new SAXBuilder();
         try {

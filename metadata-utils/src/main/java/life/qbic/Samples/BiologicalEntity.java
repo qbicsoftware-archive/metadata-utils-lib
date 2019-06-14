@@ -1,17 +1,26 @@
 package life.qbic.Samples;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.common.search.SearchResult;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.Sample;
+
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.fetchoptions.SampleFetchOptions;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.search.SampleSearchCriteria;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.vocabulary.VocabularyTerm;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.vocabulary.fetchoptions.VocabularyTermFetchOptions;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.vocabulary.search.VocabularyTermSearchCriteria;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Map;
 
 public class BiologicalEntity {
 
     private String sessionToken;
     private IApplicationServerApi applicationServer;
-    private String sampleCode;
-    private Sample biologEntity;
+    private String sampleCode; //represents a Sample of type Q_TEST_SAMPLE
+    private Map<String,String> properties;
 
     private final static Logger LOG = LogManager.getLogger(BiologicalEntity.class);
 
@@ -22,18 +31,68 @@ public class BiologicalEntity {
         this.applicationServer = applicationServer;
         this.sampleCode = sampleCode;
 
+        fetchBiologicalEntity();
+    }
+
+    private void fetchBiologicalEntity(){
+        //search for the sample code
+        SampleSearchCriteria criteria = new SampleSearchCriteria();
+        criteria.withCode().thatEquals(sampleCode);
+
+        // tell the API to fetch all descendants for each returned sample
+        SampleFetchOptions fetchOptions = new SampleFetchOptions();
+        fetchOptions.withParentsUsing(fetchOptions);
+        fetchOptions.withProperties();
+        fetchOptions.withType();
+
+        SearchResult<Sample> result = applicationServer.searchSamples(sessionToken, criteria, fetchOptions);
+
+        //check the parents to retrieve Biological_Entity
+        for(Sample sample : result.getObjects()){
+            //biological sample level
+            for(Sample biologSample : sample.getParents()){
+                //entity level
+                for(Sample entity : biologSample.getParents()) {
+                    //a sample can only be connected to one Entity! /can only have one parent
+                    if (entity.getType().getCode().equals("Q_BIOLOGICAL_ENTITY")) {
+                        properties = entity.getProperties();
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    private String mapIDToOrganism(String id){
+        VocabularyTermSearchCriteria criteria = new VocabularyTermSearchCriteria();
+        criteria.withCode().thatEquals(id);
+
+        VocabularyTermFetchOptions vocabularyFetchOptions = new VocabularyTermFetchOptions();
+        vocabularyFetchOptions.withVocabulary();
+
+        SearchResult<VocabularyTerm> result = applicationServer.searchVocabularyTerms(sessionToken, criteria, vocabularyFetchOptions);
+
+        for(VocabularyTerm vocabulary : result.getObjects()){
+            return vocabulary.getLabel();
+        }
+
+        LOG.warn("Source Organism cannot be found, the taxonomy ID is returned");
+        return id;
     }
 
     /**
-     * Look up the corresponding Biolog. entity
+     * Look up the corresponding biolog. entity
      * @return
      */
-    // TODO: 6/7/19 what represents the sampleCode and how is it different tot he biolog. entity, rethink how to use the code and when this class is used
-    //  and for which types of samples they are used
-    public Sample getBiologEntity(){
+
+    public String getSource(){
+        //source organism (NCBI)
+        if(properties.containsKey("Q_NCBI_ORGANISM"))  return mapIDToOrganism(properties.get("Q_NCBI_ORGANISM"));
+
+        LOG.warn("No source organism is available for the given sample code");
 
         return null;
     }
-    //add more functions to retrieve further meta data info from this type
 
 }

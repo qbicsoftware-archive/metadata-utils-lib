@@ -31,7 +31,17 @@ public class TestTestSample {
 
         testSample.fetchTestSample();
         TestCase.assertEquals(testSample.getAnalyte(),"RNA");
-        System.out.println(testSample.getSampleProperties());
+        //System.out.println(testSample.getSampleProperties());
+    }
+
+    @Test
+    public void biologicalSampleTest(){
+        testSample.getTissue();
+    }
+
+    @Test
+    public void biologicalEntityTest(){
+        System.out.println(testSample.getSource());
     }
 
 }

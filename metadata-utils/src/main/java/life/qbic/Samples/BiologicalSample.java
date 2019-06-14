@@ -2,14 +2,22 @@ package life.qbic.Samples;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
 
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.common.search.SearchResult;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.Sample;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.fetchoptions.SampleFetchOptions;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.search.SampleSearchCriteria;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Map;
 
 public class BiologicalSample {
 
     private String sessionToken;
     private IApplicationServerApi applicationServer;
-    private String sampleCode;
+    private String sampleCode;//sampleCode is the code of a Q_TEST_SAMPLE
+    private Map<String,String> properties;
 
     private final static Logger LOG = LogManager.getLogger(BiologicalSample.class);
 
@@ -20,7 +28,43 @@ public class BiologicalSample {
         this.applicationServer = applicationServer;
         this.sampleCode = sampleCode;
 
+        fetchBiologicalSample();
+
     }
 
-    // TODO: 6/7/19 add functions to represent the biolog sample type from openBIS (retrieve needed properties) 
+    private void fetchBiologicalSample(){
+        //search for the sample code
+        SampleSearchCriteria criteria = new SampleSearchCriteria();
+        criteria.withCode().thatEquals(sampleCode);
+
+        // tell the API to fetch all descendants for each returned sample
+        SampleFetchOptions fetchOptions = new SampleFetchOptions();
+        fetchOptions.withParentsUsing(fetchOptions);
+        fetchOptions.withProperties();
+        fetchOptions.withType();
+
+        SearchResult<Sample> result = applicationServer.searchSamples(sessionToken, criteria, fetchOptions);
+
+        //check the parents to retrieve Biological_Samples
+        for(Sample sample : result.getObjects()){
+            for(Sample parent : sample.getParents()){
+                if(parent.getType().getCode().equals("Q_BIOLOGICAL_SAMPLE")){
+                    properties = parent.getProperties();
+                }
+            }
+
+        }
+
+    }
+
+
+    // TODO: 6/7/19 add functions to represent the biolog. sample type from openBIS (retrieve needed properties)
+    public String getTissue(){
+        //Primary tissue/body fluid
+        if(properties.containsKey("Q_PRIMARY_TISSUE"))  return properties.get("Q_PRIMARY_TISSUE");
+
+        LOG.warn("No tissue is available for the given sample code");
+
+        return null;
+    }
 }
