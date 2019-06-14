@@ -28,3 +28,5 @@ src/main/webapp/VAADIN/widgetsets
 
 # Propertie Files
 *.properties
+
+*.csv

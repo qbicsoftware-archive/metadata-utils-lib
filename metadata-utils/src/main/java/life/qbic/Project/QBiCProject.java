@@ -222,7 +222,7 @@ public class QBiCProject {
             csvWriter.append(sample.getTissue()+"\t");
             csvWriter.append(sample.getAnalyte()+"\t");
             csvWriter.append(sample.getRIN()+"\t");
-            csvWriter.append(sample.getFileName()+"\t");
+            csvWriter.append(sample.getFileName());
             csvWriter.append(getAllPropertiesAsString(sample));
             csvWriter.append("\n");
 

@@ -7,6 +7,9 @@ import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.Sample;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.fetchoptions.SampleFetchOptions;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.search.SampleSearchCriteria;
 
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.vocabulary.VocabularyTerm;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.vocabulary.fetchoptions.VocabularyTermFetchOptions;
+import ch.ethz.sis.openbis.generic.asapi.v3.dto.vocabulary.search.VocabularyTermSearchCriteria;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,10 +65,32 @@ public class BiologicalSample {
     // TODO: 6/7/19 add functions to represent the biolog. sample type from openBIS (retrieve needed properties)
     public String getTissue(){
         //Primary tissue/body fluid
-        if(properties.containsKey("Q_PRIMARY_TISSUE"))  return properties.get("Q_PRIMARY_TISSUE");
+        if(properties.containsKey("Q_PRIMARY_TISSUE"))  return mapToLabel(properties.get("Q_PRIMARY_TISSUE"));
 
         LOG.warn("No tissue is available for the given sample code "+sampleCode);
 
         return null;
+    }
+
+    /**
+     * Function to
+     * @param id
+     * @return
+     */
+    private String mapToLabel(String id){
+        VocabularyTermSearchCriteria criteria = new VocabularyTermSearchCriteria();
+        criteria.withCode().thatEquals(id);
+
+        VocabularyTermFetchOptions vocabularyFetchOptions = new VocabularyTermFetchOptions();
+        vocabularyFetchOptions.withVocabulary();
+
+        SearchResult<VocabularyTerm> result = applicationServer.searchVocabularyTerms(sessionToken, criteria, vocabularyFetchOptions);
+
+        for(VocabularyTerm vocabulary : result.getObjects()){
+            return vocabulary.getLabel();
+        }
+
+        LOG.warn("Source Organism cannot be found, the taxonomy ID is returned");
+        return id;
     }
 }
