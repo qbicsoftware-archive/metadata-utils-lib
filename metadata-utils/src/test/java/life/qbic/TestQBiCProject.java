@@ -25,7 +25,7 @@ public class TestQBiCProject {
 
         //create a session with OpenBIS
         login.readCredentials();
-        login.createSession(login.ass_url, login.dss_url, login.user, login.password);
+        login.createSession(login.testInstance_URL, login.user, login.password);
 
         projectCode = login.projectCode;
 
@@ -40,7 +40,7 @@ public class TestQBiCProject {
 
         //elements in list should start with the project code
         for(String sample : samples){
-            //System.out.println(sample);
+            System.out.println(sample);
             TestCase.assertTrue(sample.startsWith(projectCode));
         }
     }

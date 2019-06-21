@@ -22,7 +22,7 @@ public class TestTestSample {
 
         //create a session with OpenBIS
         login.readCredentials();
-        login.createSession(login.ass_url, login.dss_url, login.user, login.password);
+        login.createSession(login.testInstance_URL, login.user, login.password);
 
         sampleCode = login.test_sample_code;
 
