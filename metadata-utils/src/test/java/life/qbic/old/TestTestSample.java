@@ -1,10 +1,9 @@
-package life.qbic;
+package life.qbic.old;
 
 import junit.framework.TestCase;
-import life.qbic.Project.QBiCProject;
-import life.qbic.Samples.BiologicalEntity;
-import life.qbic.Samples.BiologicalSample;
-import life.qbic.Samples.TestSample;
+import life.qbic.old.Samples.BiologicalEntity;
+import life.qbic.old.Samples.BiologicalSample;
+import life.qbic.old.Samples.TestSample;
 import org.junit.Before;
 import org.junit.Test;
 

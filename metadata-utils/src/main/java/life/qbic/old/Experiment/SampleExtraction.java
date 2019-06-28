@@ -1,4 +1,4 @@
-package life.qbic.Experiment;
+package life.qbic.old.Experiment;
 
 public class SampleExtraction {
 }

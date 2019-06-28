@@ -1,12 +1,6 @@
-package life.qbic;
+package life.qbic.old;
 
-import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
-import ch.ethz.sis.openbis.generic.asapi.v3.dto.project.Project;
-import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.Sample;
-import ch.ethz.sis.openbis.generic.dssapi.v3.IDataStoreServerApi;
-import ch.systemsx.cisd.common.spring.HttpInvokerUtils;
 import junit.framework.TestCase;
-import life.qbic.Project.QBiCProject;
 import org.junit.*;
 
 import java.io.*;

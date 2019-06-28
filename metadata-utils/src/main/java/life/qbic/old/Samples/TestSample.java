@@ -1,4 +1,4 @@
-package life.qbic.Samples;
+package life.qbic.old.Samples;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.common.search.SearchResult;

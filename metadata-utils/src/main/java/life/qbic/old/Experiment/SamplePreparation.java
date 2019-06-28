@@ -1,4 +1,4 @@
-package life.qbic.Experiment;
+package life.qbic.old.Experiment;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
 import org.apache.logging.log4j.LogManager;
