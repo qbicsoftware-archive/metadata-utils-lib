@@ -10,4 +10,5 @@ public class BiologicalEntity {
     public String getOrganism(){
         return null;
     }
+    public String getConditions(){ return null;}
 }

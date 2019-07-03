@@ -11,9 +11,17 @@ public class TestSample {
     HashMap<String,String> properties; //?????
 
     public TestSample(String sampleCode){
+        //fill properties
 
     }
 
+    public HashMap<String,String> getProperties(){
+        return properties;
+    }
+
+
+    //methods that retain info from properties hashmap
+    //some are retained recursively through related sample types
     public String getSecondaryName(){
         return null;
     }
@@ -42,8 +50,13 @@ public class TestSample {
         return null;
     }
 
-    public int getGroup(){
+   /* is implemented with returned hashmap in createGroup?
+   public int getGroup(){
         return -1;
+    }*/
+
+    public String getConditions(){
+        return null;
     }
 
 

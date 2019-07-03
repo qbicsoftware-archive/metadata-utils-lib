@@ -11,11 +11,10 @@ import java.util.HashMap;
 
 public interface OpenBisContainer {
 
-    //BiologicalEntity getEntitiesForTestSample(String code);
-    //BiologicalSample getBiologicalSamplesForTestSample(String code);
-    //SingleSampleRun getSingleSampleRunForTestSample(String code);
+    BiologicalEntity getEntitiesForTestSample(String code);
+    BiologicalSample getBiologicalSamplesForTestSample(String code);
+    SingleSampleRun getSingleSampleRunForTestSample(String code);
     ArrayList<TestSample> getTestSampleForProject(String code);
-
-    //grouping
+    String getFactors(String code);
 
 }

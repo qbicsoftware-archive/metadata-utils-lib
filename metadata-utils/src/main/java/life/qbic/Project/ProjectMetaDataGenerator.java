@@ -7,23 +7,33 @@ import life.qbic.OpenBis.Samples.TestSample;
 import life.qbic.OpenBis.OpenBisContainerImplementation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProjectMetaDataGenerator implements MetaDataGenerator {
+
+    OpenBisContainer dataContainer;
+    ArrayList<TestSample> preparationSamples;
 
 
     public ProjectMetaDataGenerator(String projectCode){
 
-        OpenBisContainer container = new OpenBisContainerImplementation(projectCode);
+        dataContainer = new OpenBisContainerImplementation(projectCode);
 
     }
 
+    /* is openbis specific --> thus use openbis container to implement grouping
     @Override
-    public ArrayList<TestSample> fetchPreparationSamples(String projectCode) {
+    public HashMap<Integer,ArrayList<TestSample>> createGrouping(ArrayList<TestSample> samples) {
+
         return null;
+    }*/
+
+    @Override
+    public void fetchPreparationSamples(String projectCode) {
     }
 
     @Override
-    public void generateMetaDataForSamples(ArrayList<TestSample> samples) {
+    public void generateMetaDataForSamples() {
 
     }
 }

@@ -11,4 +11,6 @@ public class BiologicalSample {
     public String getTissue(){
         return null;
     }
+    public String getConditions(){ return null;}
+
 }

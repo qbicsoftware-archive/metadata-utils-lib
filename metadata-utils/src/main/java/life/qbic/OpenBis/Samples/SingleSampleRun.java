@@ -11,4 +11,7 @@ public class SingleSampleRun {
     public String getFileName(){
         return null;
     }
+
+    public String getConditions(){ return null;}
+
 }

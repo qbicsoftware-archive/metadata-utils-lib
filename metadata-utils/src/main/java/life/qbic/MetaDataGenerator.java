@@ -3,13 +3,15 @@ package life.qbic;
 import life.qbic.OpenBis.Samples.TestSample;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface MetaDataGenerator {
 
     //samples from isolates
-    ArrayList<TestSample> fetchPreparationSamples(String projectCode);
+    void fetchPreparationSamples(String projectCode);
 
-    void generateMetaDataForSamples(ArrayList<TestSample> samples);
+    void generateMetaDataForSamples(); //? do i need this? it is implicitly information in testsamples
 
-    //also method to generate output??
+    //HashMap<Integer,ArrayList<TestSample>> createGrouping(ArrayList<TestSample> samples);
+
 }

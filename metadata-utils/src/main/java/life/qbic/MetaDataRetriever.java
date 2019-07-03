@@ -1,28 +1,25 @@
 package life.qbic;
 
-import life.qbic.MetaDataCollector;
-import life.qbic.OpenBis.Samples.TestSample;
 
 import java.util.ArrayList;
 
+//controller class
 public class MetaDataRetriever {
+
+    private MetaDataCollector collectedData;
 
     public MetaDataRetriever(String projectCode){
 
-        MetaDataCollector collector = new MetaDataCollector(projectCode);
+        collectedData = new MetaDataCollector(projectCode);
     }
 
     //use collector to get info about samples and metadata
-    public ArrayList<TestSample> retrieveSamples(){
-
-        return null;
-    }
-
-    public void retrieveMetadata(ArrayList<TestSample> samples){
+    //apply all steps needed from the usecase (metadatacollector), steps are implemented as methods
+    public void retrieveMetadata(){
 
     }
 
     public void createTSVOutput(){
-
+        //getMaxNumOfConditions
     }
 }
