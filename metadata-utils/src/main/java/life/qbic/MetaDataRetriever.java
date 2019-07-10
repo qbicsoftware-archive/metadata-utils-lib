@@ -1,6 +1,8 @@
 package life.qbic;
 
 
+import life.qbic.openbis.openbisclient.OpenBisClient;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,9 +11,9 @@ public class MetaDataRetriever {
 
     private MetaDataCollector collectedData;
 
-    public MetaDataRetriever(String projectCode){
+    public MetaDataRetriever(String projectCode, OpenBisClient client){
 
-        collectedData = new MetaDataCollector(projectCode);
+        collectedData = new MetaDataCollector(projectCode, client);
     }
 
     //use collector to get info about samples and metadata

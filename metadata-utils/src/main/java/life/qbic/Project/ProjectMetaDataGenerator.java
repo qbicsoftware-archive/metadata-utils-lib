@@ -5,6 +5,7 @@ import life.qbic.OpenBis.OpenBisContainer;
 import life.qbic.OpenBis.Samples.TestSample;
 
 import life.qbic.OpenBis.OpenBisContainerImplementation;
+import life.qbic.openbis.openbisclient.OpenBisClient;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +16,9 @@ public class ProjectMetaDataGenerator implements MetaDataGenerator {
     ArrayList<TestSample> preparationSamples;
 
 
-    public ProjectMetaDataGenerator(String projectCode){
+    public ProjectMetaDataGenerator(String projectCode, OpenBisClient client){
 
-        dataContainer = new OpenBisContainerImplementation(projectCode);
+        dataContainer = new OpenBisContainerImplementation(projectCode, client);
 
     }
 

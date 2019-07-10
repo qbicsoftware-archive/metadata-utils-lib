@@ -1,15 +1,16 @@
-package life.qbic.old;
+package life.qbic;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
 import ch.ethz.sis.openbis.generic.dssapi.v3.IDataStoreServerApi;
 import ch.systemsx.cisd.common.spring.HttpInvokerUtils;
+import life.qbic.openbis.openbisclient.OpenBisClient;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class OpenBisLogIn {
+public class Utils {
 
     String sessionToken;
 
@@ -60,13 +61,17 @@ public class OpenBisLogIn {
         }
     }
 
+    public OpenBisClient createClient(){
+        return new OpenBisClient(user,password,ass_url);
+    }
+
     /**
      * create a session for the given credentials and save the sessiontoken
      * @param AppServerUri
      * @param user
      * @param password
      */
-    public void createSession(String AppServerUri, String user, String password) {
+    public void createOpenBisSession(String AppServerUri, String user, String password) {
 
         if (!AppServerUri.isEmpty()) {
             this.applicationServer = HttpInvokerUtils.createServiceStub(
