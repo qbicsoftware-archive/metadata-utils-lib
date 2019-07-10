@@ -2,6 +2,7 @@ package life.qbic;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 //controller class
 public class MetaDataRetriever {
@@ -15,11 +16,12 @@ public class MetaDataRetriever {
 
     //use collector to get info about samples and metadata
     //apply all steps needed from the usecase (metadatacollector), steps are implemented as methods
-    public void retrieveMetadata(){
+    public HashMap<String,ArrayList<String>> retrieveMetadata(){
 
+        return null;
     }
 
-    public void createTSVOutput(){
+    public void createCSVOutput(){
         //getMaxNumOfConditions
     }
 }

@@ -1,4 +1,4 @@
 package life.qbic;
 
-public class TestTEst {
+public class TestMetaDataRetriever {
 }

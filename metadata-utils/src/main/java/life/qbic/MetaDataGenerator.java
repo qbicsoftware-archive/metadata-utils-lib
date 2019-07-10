@@ -10,7 +10,7 @@ public interface MetaDataGenerator {
     //samples from isolates
     void fetchPreparationSamples(String projectCode);
 
-    void generateMetaDataForSamples(); //? do i need this? it is implicitly information in testsamples
+    ArrayList<String> generateMetaDataForSample(String sampleCode);
 
     //HashMap<Integer,ArrayList<TestSample>> createGrouping(ArrayList<TestSample> samples);
 

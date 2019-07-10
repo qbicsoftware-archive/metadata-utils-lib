@@ -1,4 +1,4 @@
-package life.qbic.old;
+package life.qbic;
 
 public class TestMetaDataGenerator {
 }

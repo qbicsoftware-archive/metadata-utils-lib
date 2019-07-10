@@ -30,10 +30,13 @@ public class ProjectMetaDataGenerator implements MetaDataGenerator {
 
     @Override
     public void fetchPreparationSamples(String projectCode) {
+
     }
 
     @Override
-    public void generateMetaDataForSamples() {
+    public ArrayList<String> generateMetaDataForSample(String sampleCode) {
 
+        //use the preparation samples and fetch all parent and child samples with needed information
+        return null;
     }
 }
