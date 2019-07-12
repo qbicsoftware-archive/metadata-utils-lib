@@ -1,16 +1,13 @@
 package life.qbic;
 
-import life.qbic.Project.ProjectMetaDataGenerator;
+import life.qbic.Entities.MetaDataGenerator;
+import life.qbic.Entities.ProjectMetaDataGenerator;
 import life.qbic.openbis.openbisclient.OpenBisClient;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static junit.framework.TestCase.assertEquals;
 
 public class TestMetaDataGenerator {
 
@@ -23,7 +20,7 @@ public class TestMetaDataGenerator {
         Utils utils = new Utils();
         utils.readCredentials();
 
-        client = utils.createClient();
+        client = Mockito.mock(OpenBisClient.class);
 
         generatedData = new ProjectMetaDataGenerator(utils.projectCode, client);
     }
@@ -39,9 +36,6 @@ public class TestMetaDataGenerator {
         //test how missing info is handled --> nan or so
     }
 
-    @After
-    public void logout(){
-        client.logout();
-    }
+
 
 }

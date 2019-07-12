@@ -1,19 +1,20 @@
 package life.qbic;
 
+import life.qbic.UseCases.NGSMetaDataCollector;
 import life.qbic.openbis.openbisclient.OpenBisClient;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.*;
 
 public class TestMetaDataCollector {
 
-    private MetaDataCollector collector;
+    private NGSMetaDataCollector collector;
     private OpenBisClient client;
 
 
@@ -22,9 +23,9 @@ public class TestMetaDataCollector {
 
         Utils utils = new Utils();
         utils.readCredentials();
-        client = utils.createClient();
+        client = Mockito.mock(OpenBisClient.class);
 
-        collector = new MetaDataCollector(utils.projectCode, client);
+        collector = new NGSMetaDataCollector(utils.projectCode, client);
     }
 
     @Test
@@ -45,12 +46,8 @@ public class TestMetaDataCollector {
 
     @Test
     public void testCollectPreparationSamples(){
-
+        //mock the datagenerator in the method
+        assertNotNull(collector.collectPreparationSamples());
     }
 
-
-    @After
-    public void logout(){
-        client.logout();
-    }
 }

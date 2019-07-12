@@ -1,4 +1,4 @@
-package life.qbic.old;
+package life.qbic.Xold;
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.common.search.SearchResult;
@@ -12,7 +12,7 @@ import ch.ethz.sis.openbis.generic.asapi.v3.dto.project.search.ProjectSearchCrit
 
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.Sample;
 import ch.ethz.sis.openbis.generic.asapi.v3.dto.sample.fetchoptions.SampleFetchOptions;
-import life.qbic.old.Samples.TestSample;
+import life.qbic.Xold.Samples.TestSample;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

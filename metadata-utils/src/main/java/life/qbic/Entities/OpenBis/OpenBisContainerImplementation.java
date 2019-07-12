@@ -1,11 +1,11 @@
-package life.qbic.OpenBis;
+package life.qbic.Entities.OpenBis;
 
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
-import life.qbic.OpenBis.Samples.BiologicalEntity;
-import life.qbic.OpenBis.Samples.BiologicalSample;
-import life.qbic.OpenBis.Samples.SingleSampleRun;
-import life.qbic.OpenBis.Samples.TestSample;
+import life.qbic.Entities.OpenBis.Samples.BiologicalEntity;
+import life.qbic.Entities.OpenBis.Samples.BiologicalSample;
+import life.qbic.Entities.OpenBis.Samples.OmicsRun;
+import life.qbic.Entities.OpenBis.Samples.TestSample;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 
 import java.util.ArrayList;
@@ -20,22 +20,23 @@ public class OpenBisContainerImplementation implements OpenBisContainer {
     public OpenBisContainerImplementation(String projectCode, OpenBisClient client) {
 
         //get info about connection from client to make db requests
+        //erst hier client login! auch logout am ende!
         //get openbis project
 
     }
 
     @Override
-    public BiologicalEntity getEntitiesForTestSample(String sampleCode) {
+    public BiologicalEntity getEntityForTestSample(String sampleCode) {
         return null;
     }
 
     @Override
-    public BiologicalSample getBiologicalSamplesForTestSample(String sampleCode) {
+    public BiologicalSample getBiologicalSampleForTestSample(String sampleCode) {
         return null;
     }
 
     @Override
-    public SingleSampleRun getSingleSampleRunForTestSample(String sampleCode) {
+    public ArrayList<OmicsRun> getSingleSampleRunsForTestSample(String sampleCode) {
         return null;
     }
 
@@ -45,7 +46,8 @@ public class OpenBisContainerImplementation implements OpenBisContainer {
     }
 
     @Override
-    public String getFactors(String sampleCode) {
+    //samplecode, list of parsed conditions
+    public HashMap<String,ArrayList<String>> getFactors(ArrayList<TestSample> samples) {
         return null;
     }
 
@@ -54,6 +56,10 @@ public class OpenBisContainerImplementation implements OpenBisContainer {
         return null;
     }
 
+    @Override
+    public String mapVocabularyTermIDToString(int id) {
+        return null;
+    }
 
     public String getFactorsForSample(String sampleCode) {
         //do it for samples and experiment level and only keep the union of both (no double information)

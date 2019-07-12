@@ -1,17 +1,19 @@
-package life.qbic.OpenBis.Samples;
+package life.qbic.Entities.OpenBis.Samples;
 
 import java.util.HashMap;
 
 public class TestSample {
 
-    String entityID;
-    BiologicalSample biologicalSample;
-    SingleSampleRun ssRun;
+    private String entityID;
+    private BiologicalSample biologicalSample;
+    private OmicsRun ssRun;
+    private String sampleCode;
 
     HashMap<String,String> properties; //?????
 
-    public TestSample(String sampleCode){
-        //fill properties
+    public TestSample(String sampleCode)
+    {
+        this.sampleCode = sampleCode;
 
     }
 
@@ -50,15 +52,16 @@ public class TestSample {
         return null;
     }
 
-   /* is implemented with returned hashmap in createGroup?
-   public int getGroup(){
-        return -1;
-    }*/
+    public String getEntityID(){
+        return entityID;
+    }
 
     public String getConditions(){
         return null;
     }
 
-
+    public String getSampleCode(){
+        return sampleCode;
+    }
 
 }

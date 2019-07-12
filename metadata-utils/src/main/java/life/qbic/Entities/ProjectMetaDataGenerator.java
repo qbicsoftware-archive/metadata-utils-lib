@@ -1,25 +1,23 @@
-package life.qbic.Project;
+package life.qbic.Entities;
 
-import life.qbic.MetaDataGenerator;
-import life.qbic.OpenBis.OpenBisContainer;
-import life.qbic.OpenBis.Samples.TestSample;
+import life.qbic.Entities.OpenBis.OpenBisContainer;
+import life.qbic.Entities.OpenBis.Samples.TestSample;
 
-import life.qbic.OpenBis.OpenBisContainerImplementation;
+import life.qbic.Entities.OpenBis.OpenBisContainerImplementation;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ProjectMetaDataGenerator implements MetaDataGenerator {
 
-    OpenBisContainer dataContainer;
-    ArrayList<TestSample> preparationSamples;
+    private ArrayList<TestSample> preparationSamples;
+    private String projectCode;
+    private OpenBisClient client;
 
 
     public ProjectMetaDataGenerator(String projectCode, OpenBisClient client){
-
-        dataContainer = new OpenBisContainerImplementation(projectCode, client);
-
+        this.projectCode = projectCode;
+        this.client = client;
     }
 
     /* is openbis specific --> thus use openbis container to implement grouping
@@ -32,10 +30,12 @@ public class ProjectMetaDataGenerator implements MetaDataGenerator {
     @Override
     public void fetchPreparationSamples(String projectCode) {
 
+        OpenBisContainer dataContainer = new OpenBisContainerImplementation(projectCode, client);
+
     }
 
     @Override
-    public ArrayList<String> generateMetaDataForSample(String sampleCode) {
+    public ArrayList<String> generateMetaDataForSample(TestSample sample) {
 
         //use the preparation samples and fetch all parent and child samples with needed information
         return null;

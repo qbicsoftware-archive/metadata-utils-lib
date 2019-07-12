@@ -1,4 +1,4 @@
-package life.qbic.OpenBis.Samples;
+package life.qbic.Entities.OpenBis.Samples;
 
 public class BiologicalEntity {
 
