@@ -19,7 +19,7 @@ public class NGSMetaDataCollector extends MetaDataCollector {
 
     @Override
     public String getDataType() {
-        return "Q_NGS_MEASUREMENT";
+        return "NGS";
     }
 
 

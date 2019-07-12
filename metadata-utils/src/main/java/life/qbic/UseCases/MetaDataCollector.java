@@ -35,9 +35,11 @@ public abstract class MetaDataCollector {
         //HashMap<String,ArrayList<String>>: testsamplecode, entry of each column (ordered!)
         //consider handling conditions
 
+        //return value is "table" with column entries per preparation samples
         return null;
     }
 
     //each use case has a different data type that needs to be queried
     public abstract String getDataType();
+
 }

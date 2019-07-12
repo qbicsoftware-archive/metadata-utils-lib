@@ -25,6 +25,7 @@ public class OpenBisContainerImplementation implements OpenBisContainer {
 
     }
 
+    //parents
     @Override
     public BiologicalEntity getEntityForTestSample(String sampleCode) {
         return null;
@@ -35,18 +36,21 @@ public class OpenBisContainerImplementation implements OpenBisContainer {
         return null;
     }
 
+    //child
+    //e.g. singlesamplerun
     @Override
-    public ArrayList<OmicsRun> getSingleSampleRunsForTestSample(String sampleCode) {
+    public ArrayList<OmicsRun> getOmicsForTestSample(String sampleCode) {
         return null;
     }
 
+    //enter sample type
     @Override
     public ArrayList<TestSample> getTestSamplesForProject(String projectCode) {
         return null;
     }
 
     @Override
-    //samplecode, list of parsed conditions
+    //samplecode, list of parsed conditions, list all, even duplicates (no filtering)
     public HashMap<String,ArrayList<String>> getFactors(ArrayList<TestSample> samples) {
         return null;
     }

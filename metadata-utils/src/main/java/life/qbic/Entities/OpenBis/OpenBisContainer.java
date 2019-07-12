@@ -14,7 +14,7 @@ public interface OpenBisContainer {
     // die alle evlt nur in der implementierung als private klassen
     BiologicalEntity getEntityForTestSample(String sampleCode);
     BiologicalSample getBiologicalSampleForTestSample(String sampleCode);
-    ArrayList<OmicsRun> getSingleSampleRunsForTestSample(String sampleCode);
+    ArrayList<OmicsRun> getOmicsForTestSample(String sampleCode);
     //
     ArrayList<TestSample> getTestSamplesForProject(String projectCode);
     HashMap<String,ArrayList<String>> getFactors(ArrayList<TestSample> samples);

@@ -9,6 +9,6 @@ public class MicroArrayMetaDataCollector extends MetaDataCollector {
 
     @Override
     public String getDataType() {
-        return "Q_MICROARRAY_MEASUREMENT";
+        return "MICROARRAY";
     }
 }

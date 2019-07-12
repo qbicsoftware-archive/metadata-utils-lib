@@ -38,6 +38,7 @@ public class ProjectMetaDataGenerator implements MetaDataGenerator {
     public ArrayList<String> generateMetaDataForSample(TestSample sample) {
 
         //use the preparation samples and fetch all parent and child samples with needed information
+        //return value is one row in final table
         return null;
     }
 }

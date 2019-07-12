@@ -10,6 +10,6 @@ public class NMRMetaDataCollector extends MetaDataCollector {
 
     @Override
     public String getDataType() {
-        return "Q_NMR_MEASUREMENT";
+        return "NMR";
     }
 }
