@@ -1,6 +1,6 @@
 package life.qbic;
 
-import life.qbic.Controller.MetaDataGenerator;
+import life.qbic.UseCases.MetaDataGenerator;
 import life.qbic.Controller.ProjectMetaDataGenerator;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 import org.junit.Before;

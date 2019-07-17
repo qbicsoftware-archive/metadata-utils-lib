@@ -1,6 +1,5 @@
 package life.qbic.UseCases;
 
-import life.qbic.Controller.MetaDataGenerator;
 import life.qbic.Entities.TestSample;
 import life.qbic.Controller.ProjectMetaDataGenerator;
 import life.qbic.openbis.openbisclient.OpenBisClient;

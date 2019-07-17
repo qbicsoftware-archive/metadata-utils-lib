@@ -10,6 +10,7 @@ public abstract class QBiCSample {
 
     private void filterForRelevantProperties(ArrayList<String> propLabelList){
         //method to manipulate
+        //determine what kind of properties are filtered based on useCase!!!!
 
     }
 }

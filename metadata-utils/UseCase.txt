@@ -1,0 +1,15 @@
+Title:  retrieve metadata for a project
+
+Description:
+
+Primary Actor/Entity:
+(have tests here to ensure logic of entity)
+
+Preconditions:
+
+Postconditions:
+
+Main Success Scenario:
+
+Extensions:
+

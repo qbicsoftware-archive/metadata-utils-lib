@@ -1,4 +1,4 @@
-package life.qbic.Controller;
+package life.qbic.UseCases;
 
 import life.qbic.Entities.TestSample;
 
