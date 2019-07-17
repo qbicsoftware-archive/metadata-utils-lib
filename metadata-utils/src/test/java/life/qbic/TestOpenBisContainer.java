@@ -1,7 +1,7 @@
 package life.qbic;
 
-import life.qbic.Entities.OpenBis.OpenBisContainer;
-import life.qbic.Entities.OpenBis.OpenBisContainerImplementation;
+import life.qbic.Controller.OpenBisContainer;
+import life.qbic.DB.OpenBisContainerImplementation;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 import org.junit.After;
 import org.junit.Before;

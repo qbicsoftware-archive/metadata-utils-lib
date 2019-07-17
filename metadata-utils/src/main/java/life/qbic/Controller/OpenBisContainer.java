@@ -1,10 +1,10 @@
-package life.qbic.Entities.OpenBis;
+package life.qbic.Controller;
 
 
-import life.qbic.Entities.OpenBis.Samples.BiologicalEntity;
-import life.qbic.Entities.OpenBis.Samples.BiologicalSample;
-import life.qbic.Entities.OpenBis.Samples.OmicsRun;
-import life.qbic.Entities.OpenBis.Samples.TestSample;
+import life.qbic.Entities.BiologicalEntity;
+import life.qbic.Entities.BiologicalSample;
+import life.qbic.Entities.OmicsRun;
+import life.qbic.Entities.TestSample;
 
 import java.util.ArrayList;
 import java.util.HashMap;

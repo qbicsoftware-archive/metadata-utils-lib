@@ -1,7 +1,7 @@
 package life.qbic;
 
-import life.qbic.Entities.MetaDataGenerator;
-import life.qbic.Entities.ProjectMetaDataGenerator;
+import life.qbic.Controller.MetaDataGenerator;
+import life.qbic.Controller.ProjectMetaDataGenerator;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,13 +1,7 @@
 package life.qbic.UseCases;
 
 
-import life.qbic.Entities.OpenBis.Samples.TestSample;
-import life.qbic.Entities.MetaDataGenerator;
-import life.qbic.Entities.ProjectMetaDataGenerator;
 import life.qbic.openbis.openbisclient.OpenBisClient;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 //one use case is handeling ngs data
 public class NGSMetaDataCollector extends MetaDataCollector {

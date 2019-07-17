@@ -1,9 +1,8 @@
-package life.qbic.Entities;
+package life.qbic.Controller;
 
-import life.qbic.Entities.OpenBis.OpenBisContainer;
-import life.qbic.Entities.OpenBis.Samples.TestSample;
+import life.qbic.Entities.TestSample;
 
-import life.qbic.Entities.OpenBis.OpenBisContainerImplementation;
+import life.qbic.DB.OpenBisContainerImplementation;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 
 import java.util.ArrayList;

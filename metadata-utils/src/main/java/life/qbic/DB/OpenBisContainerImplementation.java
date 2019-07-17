@@ -1,11 +1,12 @@
-package life.qbic.Entities.OpenBis;
+package life.qbic.DB;
 
 
 import ch.ethz.sis.openbis.generic.asapi.v3.IApplicationServerApi;
-import life.qbic.Entities.OpenBis.Samples.BiologicalEntity;
-import life.qbic.Entities.OpenBis.Samples.BiologicalSample;
-import life.qbic.Entities.OpenBis.Samples.OmicsRun;
-import life.qbic.Entities.OpenBis.Samples.TestSample;
+import life.qbic.Controller.OpenBisContainer;
+import life.qbic.Entities.BiologicalEntity;
+import life.qbic.Entities.BiologicalSample;
+import life.qbic.Entities.OmicsRun;
+import life.qbic.Entities.TestSample;
 import life.qbic.openbis.openbisclient.OpenBisClient;
 
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class OpenBisContainerImplementation implements OpenBisContainer {
         //get openbis project
 
     }
+
+    //getparents, getchild respectively create the sampletypes needed and return a list of samples
+    //to avoid redundancy when seeking for two parents
+    //BUT what checks have to be done, what types have to be controlled? --> omics!!!!!!!
 
     //parents
     @Override

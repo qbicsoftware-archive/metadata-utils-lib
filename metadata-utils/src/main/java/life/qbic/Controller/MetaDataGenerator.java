@@ -1,6 +1,6 @@
-package life.qbic.Entities;
+package life.qbic.Controller;
 
-import life.qbic.Entities.OpenBis.Samples.TestSample;
+import life.qbic.Entities.TestSample;
 
 import java.util.ArrayList;
 
