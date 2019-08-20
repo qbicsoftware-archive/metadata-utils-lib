@@ -1,24 +1,12 @@
-package life.qbic.Entities;
+package life.qbic.ProjectEntity;
 
 import java.util.HashMap;
 
-public class TestSample {
+public class TestSample extends QBiCSample{
 
-    private String entityID;
-    private BiologicalSample biologicalSample;
-    private OmicsRun ssRun;
-    private String sampleCode;
 
-    HashMap<String,String> properties; //?????
-
-    public TestSample(String sampleCode)
-    {
-        this.sampleCode = sampleCode;
-
-    }
-
-    public HashMap<String,String> getProperties(){
-        return properties;
+    public TestSample(String sampleCode, HashMap<String, String> properties)    {
+        super(sampleCode, properties);
     }
 
 
@@ -52,16 +40,9 @@ public class TestSample {
         return null;
     }
 
-    public String getEntityID(){
-        return entityID;
-    }
-
     public String getConditions(){
         return null;
     }
 
-    public String getSampleCode(){
-        return sampleCode;
-    }
 
 }
