@@ -9,12 +9,10 @@ Created by Jennifer Bödker (jennifer.boedker@student.uni-tuebingen.de).
 
 ## Description
 
-This library generates a tabular output containing the metadata for a given QBiC-Project-Code. 
-This library does not implement a connection to OpenBIS and thus needs a session token and an application server (from OpenBIS). 
+This library generates an output containing the metadata for a given QBiC-Project-Code. 
+In order to illustrate the QBiC data structure properly the library `data-model-lib` is included.
 
-For a given project code the 
-
-**What are OpenBIS-Properties?** OpenBis provides the possibility to store individual information in further columns. All these values are grouped by the term **Property**.
+**What are OpenBIS-Properties?** OpenBis provides the possibility to store individual information. All these values are grouped by the term **Property**.
 This should not be confused with a property `Q_PROPERTY` which is itself a QBiC-**Property**. Also, each **Property** could contain different information
 depending on which type of sample it is used for.
 
@@ -51,3 +49,76 @@ Following steps have to be performed to retrieve the meta data:
 7. **Grouping**: Grouping should show which samples stem from the same organism. Thus, to retrieve this information for each sample (Q_TEST_SAMPLE) the entities have to
                  be retrieved and samples with the same entity are grouped together.
                  
+                 
+### Use Case
+
+**Use Case Name**: Preparation Sample Metadata Retrieving
+
+**Subject Area**: Data Analysis
+
+**Business Event**: Request of Metadata 
+
+**Actors**: Project Manager
+
+**Use Case Overview**: User specifies an OpenBis project and gets a list of all available metadata per preparation sample.
+
+**Preconditions**: Valid OpenBis project is available
+
+**Termination Outcome**: 
+1. All metadata gets returned
+2. Some fields are marked with NA 
+3. Some Metadata categories have the same name with different tags at the end of the name 
+
+**Condition Affecting Termination Outcome**: 
+1. All metadata is annotated
+2. Missing metadata information
+3. Some Metadata categories (factors or properties) occur multiply (on e.g different sample levels)
+
+**Use Case Description**:
+Following steps have to be performed to retrieve the meta data:
+
+1. **Actor enters Project Code**: The system searches the corresponding project in the DB (OpenBIS).
+
+2. **Fetch the Experiment and Corresponding Samples**: The system fetches the associated `Q_SAMPLE_PREPARATION` experiment with all samples. 
+
+3. **Get Experiment Factors**: The system retrieves experiment factors.
+                                                       
+4. **Get Sample Meta Data and Factors**: For each sample of the experiment retrieve the properties and the factors.
+
+5. **Filter Properties**: 
+Filter the returned properties for:
+- Preparation Sample QBiC Code
+- Secondary Name
+- Lab ID
+- Sample Type (Analyte)
+- Source
+- Source Name(s)
+- Source Lab ID(s)
+- Extract Code(s)
+- Extract Name(s)
+- Extract Lab ID(s)
+- Conditions
+- Filenames
+- Gender/Sex (e.g. male / female)
+- Tissue (e.g. blood / liver / tumor)
+- Entity QBiC Code (Grouping)
+- RIN 
+
+**Use Case Associations**: Extraction Sample Metadata Retrieving
+
+**Traceability to**: (list of other related documents)
+
+**Input Summary**: QBiC project barcode
+
+**Output Summary**: All metadata (defined in the use case description) associated with the preparation samples of the given project
+
+**Usability Index**: A number based on how this use case ranked in terms of satisfaction, importance, and frequency. (?)
+
+**Use Case Notes**: Factors are encoded in XML, 
+                    some sample properties need to be mapped to e.g. an organism (instead of an ID),
+                    some projects have the same factors encoded on the experiment and on the sample level,
+                    multiple samples can have the same factors
+
+            
+This use case is based on this template [examplary use case](https://www.ibm.com/support/knowledgecenter/en/SSWSR9_11.6.0/com.ibm.pim.dev.doc/pim_ref_usecasetemp.html)
+              
